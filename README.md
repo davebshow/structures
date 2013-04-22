@@ -5,7 +5,7 @@ AGraph
 -----------------------
 
 ```python
->>> from graph import AGraph
+>>> from structures import AGraph
 
 >>> G = AGraph()
 
