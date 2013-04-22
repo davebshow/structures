@@ -3,8 +3,8 @@ import random
 import itertools
 from graph_data_structures import *
 
-class GraphJunior(object):
-    """Graph with stable number of nodes and super fast edge creation
+class MonoGraph(object):
+    """Monkey graph with stable number of nodes and super fast edge creation
     Nodes kept in an array with pointers to linked edge lists."""
 
     @staticmethod
