@@ -1,7 +1,7 @@
 
 import random 
 import itertools
-from graphs.graph_data_structures import *
+from graph_types.data_structures import *
 
 class AGraph(object):
     """An adjacency list style graph with constant time node and edge creation, 
