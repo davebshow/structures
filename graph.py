@@ -10,7 +10,7 @@ class MonoGraph(object):
     @staticmethod
     def generate_random(size, prob):
         """ Exponential. 5,000 at 0.1 crashed by compu. size < 2500. prob < 1"""
-        G = GraphJunior()
+        G = MonoGraph()
         for x in range(size):
             G.add_node(x)
         edges = itertools.combinations(range(size),2)
