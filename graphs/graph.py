@@ -10,7 +10,7 @@ class GraphJunior(object):
     @staticmethod
     def generate_random(size, prob):
         """ Exponential. 5,000 at 0.1 crashed by compu. size < 2500. prob < 1"""
-        G = Graph()
+        G = GraphJunior()
         for x in range(size):
             G.add_node(x)
         edges = itertools.combinations(range(size),2)
@@ -45,21 +45,55 @@ class GraphJunior(object):
         self.nodes.add_node(data)
 
     def remove_node(self, ndx):
+        for node in self.nodes[ndx].edges:
+            self.remove_edge(node.edge_ref)   
         self.nodes[ndx] = None
         self.size -= 1
 
-    def remove_edge(self,source,target):
-        self.nodes[source].edges.remove(target)
-        self.nodes[target].edges.remove(source)
-        
+    def remove_edge(self,edge):
+        if edge.target is self.nodes[edge.source.data].edges.head:
+            self.nodes[edge.source.data].edges.head = self.nodes[edge.source.data].edges.head.next
+            edge.target.next = None
+        elif edge.target is self.nodes[edge.source.data].edges.tail:
+            self.nodes[edge.source.data].edges.head = self.nodes[edge.source.data].edges.head.next
+            edge.target.prev = None
+        else:
+            edge.target.prev.next = edge.target.next
+            edge.target.next.prev = edge.target.prev
+            edge.target.prev = None
+            edge.target.next = None
+        if edge.source is self.nodes[edge.target.data].edges.head:
+            self.nodes[edge.target.data].edges.head = self.nodes[edge.target.data].edges.head.next
+            edge.source.next = None
+        elif edge.target is self.nodes[edge.target.data].edges.tail:
+            self.nodes[edge.target.data].edges.head = self.nodes[edge.target.data].edges.head.next
+            edge.source.prev = None
+        else:
+            edge.source.prev.next = edge.source.next
+            edge.source.next.prev = edge.source.prev
+            edge.source.prev = None
+            edge.source.next = None
+        edge.target = None
+        edge.source = None
+
+    def find_edge(self,source,target):
+        for node in self.nodes[source].edges:
+            if node.data == Target:
+                return node.edge_ref
+  
     def add_edge(self, data, source, target):
         """ can this be faster? """
         node1 = self.nodes[source]
         node2 = self.nodes[target]
-        node1.edges.add_edge(data, node1.id, node2.id)
-        node2.edges.add_edge(data, node2.id, node1.id)
+        edge = Edge(data)
+        node1.edges.add_node(target,edge_ref=edge)
+        node2.edges.add_node(source,edge_ref=edge)
+        edge.source = node1.edges.tail
 
-    def adjacent(self, node1, node2):
+        edge.target = node2.edges.tail
+        
+
+    def adjacent(self, node1, node2): # check
         for edge in self.nodes[node1].edges:
             if edge.target == node2:
                 return True
@@ -78,10 +112,10 @@ class GraphJunior(object):
         while not visited.full():
             if node._valid_neighbors(visited):
                 for neighbor in node.edges:
-                    if not visited[neighbor.target]:
-                        node = self.nodes[neighbor.target]
-                        stack.push(neighbor.target)
-                        visited.add_node(True, ndx=neighbor.target)  
+                    if not visited[neighbor.data]:
+                        node = self.nodes[neighbor.data]
+                        stack.push(neighbor.data)
+                        visited.add_node(True, ndx=neighbor.data)  
                         print "%i : %s" % (node.id,node.data)       
             else:
                 stack.pop()
@@ -102,9 +136,9 @@ class GraphJunior(object):
             return True
         elif node._valid_neighbors(visited):
             for neighbor in node.edges:
-                if not visited[neighbor.target]:
-                    print "%i : %s" % (self.nodes[neighbor.target].id,self.nodes[neighbor.target].data)
-                    n_traversal = self.rec_traversal(neighbor.target,visited=visited)
+                if not visited[neighbor.data]:
+                    print "%i : %s" % (self.nodes[neighbor.data].id,self.nodes[neighbor.data].data)
+                    n_traversal = self.rec_traversal(neighbor.data,visited=visited)
                     if n_traversal:
                         return True
         return False
@@ -117,20 +151,23 @@ class GraphJunior(object):
         visited[node.id] = node
         while True:
             if node.id == finish:
-                print stack
+                for x in range(len(stack)):
+                    pop = stack.pop()
+                    print pop.data,
+                print "\n"
                 return True
             elif node._valid_neighbors(visited):
                 for neighbor in node.edges:
-                    if not visited[neighbor.target]:
-                        node = self.nodes[neighbor.target]
-                        stack.push(neighbor.target)
-                        visited[neighbor.target] = node
+                    if not visited[neighbor.data]:
+                        node = self.nodes[neighbor.data]
+                        stack.push(neighbor.data)
+                        visited[neighbor.data] = node
             else:
                 stack.pop()
                 if len(stack) == 0:
                     return False
                 else:
-                    node = self.nodes[stack.peek().data]
+                    node = self.nodes[stack.peek()]
 
     def rec_breadth_search(self, start, finish, path=None):
         """don't really like this"""
@@ -141,10 +178,11 @@ class GraphJunior(object):
         if start == finish:
             for node in path:
                 print node.data,
+            print "\n"
             return True
         for neighbor in node.edges:
-            if neighbor.target not in path:
-                n_path = self.rec_breadth_search(neighbor.target,finish,path)
+            if neighbor.data not in path:
+                n_path = self.rec_breadth_search(neighbor.data,finish,path)
                 if n_path:
                     return True
         return False
@@ -161,8 +199,8 @@ class GraphJunior(object):
         traversal_neighbors = set(node.neighbors)
         if degree_sep > 1:
             for neighbor in node.edges:
-                if not visited[neighbor.target]:
-                    n_neighbors = self.rec_neighbors_traversal(neighbor.target, degree_sep-1, 
+                if not visited[neighbor.data]:
+                    n_neighbors = self.rec_neighbors_traversal(neighbor.data, degree_sep-1, 
                                                             visited=visited)
                     traversal_neighbors.update(n_neighbors)
         return traversal_neighbors
