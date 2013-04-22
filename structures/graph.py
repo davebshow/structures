@@ -5,13 +5,13 @@ from graph_types.data_structures import *
 
 class AGraph(object):
     """An adjacency list style graph with constant time node and edge creation, 
-    constant time edge destruction, edge search, node deletion and neighbors 
-    retrieval O(deg(v)). Includes traversals, breadth search, and neighbors
+    and constant time edge destruction. Edge search, node deletion and neighbors 
+    retrieval= O(deg(v)). Includes traversals, breadth search, and neighbors
     traversals."""
 
     @staticmethod
     def generate_random(size, prob):
-        """ Exponential. 5,000 at 0.1 crashed by compu. size < 2500. prob < 1"""
+        """ O(n^2) random graph generator"""
         G = AGraph(size)
         for x in range(size):
             G.create_node(x)
@@ -48,35 +48,28 @@ class AGraph(object):
 
     def destroy_node(self, ndx):
         for node in self.nodes[ndx].edges:
-            self.destroy_edge(node.edge_ref)   
+            self.test_destroy_edge(node.edge_ref)   
         self.nodes[ndx] = None
         self.size -= 1
 
     def destroy_edge(self,edge):
-        if edge.target is self.nodes[edge.source.data].edges.head:
-            self.nodes[edge.source.data].edges.head = self.nodes[edge.source.data].edges.head.next
-            edge.target.next = None
-        elif edge.target is self.nodes[edge.source.data].edges.tail:
-            self.nodes[edge.source.data].edges.head = self.nodes[edge.source.data].edges.head.next
-            edge.target.prev = None
-        else:
-            edge.target.prev.next = edge.target.next
-            edge.target.next.prev = edge.target.prev
-            edge.target.prev = None
-            edge.target.next = None
-        if edge.source is self.nodes[edge.target.data].edges.head:
-            self.nodes[edge.target.data].edges.head = self.nodes[edge.target.data].edges.head.next
-            edge.source.next = None
-        elif edge.target is self.nodes[edge.target.data].edges.tail:
-            self.nodes[edge.target.data].edges.head = self.nodes[edge.target.data].edges.head.next
-            edge.source.prev = None
-        else:
-            edge.source.prev.next = edge.source.next
-            edge.source.next.prev = edge.source.prev
-            edge.source.prev = None
-            edge.source.next = None
+        self._edge_ref_destructor(edge.target,edge.source.data)
+        self._edge_ref_destructor(edge.source,edge.target.data)
         edge.target = None
         edge.source = None
+
+    def _edge_ref_destructor(self,llist_node, target_index):
+        if llist_node is self.nodes[target_index].edges.head:
+            self.nodes[target_index].edges.head = self.nodes[target_index].edges.head.next
+            llist_node.next = None
+        elif llist_node is self.nodes[target_index].edges.tail:
+            self.nodes[target_index].edges.head = self.nodes[target_index].edges.head.next
+            llist_node.prev = None
+        else:
+            llist_node.prev.next = llist_node.next
+            llist_node.next.prev = llist_node.prev
+            llist_node.prev = None
+            llist_node.next = None
 
     def search_edge(self,source,target):
         for node in self.nodes[source].edges:
@@ -205,5 +198,3 @@ class AGraph(object):
                     traversal_neighbors.update(n_neighbors)
         return traversal_neighbors
              
-
-

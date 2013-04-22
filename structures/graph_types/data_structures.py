@@ -1,15 +1,10 @@
 import ctypes 
 
-
-#######################################################
 class Node(object):
 
     def __init__(self, data,edge_ref=None):
         self.data = data
         self.id = None
-        self.next = None
-        self.prev = None
-        self.edge_ref = edge_ref
         self.edges = LinkedList()
 
     def _get_neighbors(self):
@@ -26,7 +21,18 @@ class Node(object):
                 return True
         return False
 
-########################################
+class LinkedListNode(object):
+    def __init__(self,data,edge_ref=None):
+        self.data = data
+        self.edge_ref = edge_ref
+        self.prev = None
+        self.next = None
+
+class StackNode(object):
+
+    def __init__(self,data):
+        self.data = data
+        self.prev = None
 
 class Edge(object):
 
@@ -34,8 +40,6 @@ class Edge(object):
         self.data = data
         self.source = None
         self.target = None     
-
-#############################################
 
 class NodeArray(object):
 
@@ -89,7 +93,6 @@ class NodeArray(object):
         for ndx, item in enumerate(arr):
             self._items[ndx] = item
 
-########################################################
 class ArrayIterator(object):
     
     def __init__(self, arr):
@@ -107,7 +110,6 @@ class ArrayIterator(object):
         else:
             raise StopIteration
 
-########################################################
 class LinkedList(object):
 
     def __init__(self):
@@ -132,7 +134,7 @@ class LinkedList(object):
 
     def add_node(self, data, edge_ref=None):
         if edge_ref:
-            node = Node(data,edge_ref)
+            node = LinkedListNode(data,edge_ref)
         else:
             node = Node(data)
         if self.head == None:
@@ -180,7 +182,6 @@ class LinkedList(object):
         else:
             return current
 
-#################################################
 class LinkedListIterator(object):
 
     def __init__(self, head):
@@ -197,7 +198,6 @@ class LinkedListIterator(object):
             self.current = self.current.next
             return node 
 
-######################################
 class Stack(object):
 
     def __init__(self):
@@ -225,11 +225,3 @@ class Stack(object):
 
     def peek(self):
         return self.top.data
-
-########################################
-class StackNode(object):
-
-    def __init__(self,data):
-        self.data = data
-        self.prev = None
-
