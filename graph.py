@@ -1,22 +1,24 @@
 
 import random 
 import itertools
-from graph_data_structures import *
+from graphs.graph_data_structures import *
 
-class MonoGraph(object):
-    """Monkey graph with stable number of nodes and super fast edge creation
-    Nodes kept in an array with pointers to linked edge lists."""
+class AGraph(object):
+    """An adjacency list style graph with constant time node and edge creation, 
+    constant time edge destruction, edge search, node deletion and neighbors 
+    retrieval O(deg(v)). Includes traversals, breadth search, and neighbors
+    traversals."""
 
     @staticmethod
     def generate_random(size, prob):
         """ Exponential. 5,000 at 0.1 crashed by compu. size < 2500. prob < 1"""
-        G = MonoGraph()
+        G = AGraph(size)
         for x in range(size):
-            G.add_node(x)
+            G.create_node(x)
         edges = itertools.combinations(range(size),2)
         for edge in edges:
             if random.random() < prob:
-                G.add_edge("edge",edge[0],edge[1])
+                G.create_edge("edge",edge[0],edge[1])
         return G
 
     def __init__(self,size=None):
@@ -40,17 +42,17 @@ class MonoGraph(object):
 
     node_dict = property(_get_node_dict)
 
-    def add_node(self, data):
+    def create_node(self, data):
         self.size += 1
         self.nodes.add_node(data)
 
-    def remove_node(self, ndx):
+    def destroy_node(self, ndx):
         for node in self.nodes[ndx].edges:
-            self.remove_edge(node.edge_ref)   
+            self.destroy_edge(node.edge_ref)   
         self.nodes[ndx] = None
         self.size -= 1
 
-    def remove_edge(self,edge):
+    def destroy_edge(self,edge):
         if edge.target is self.nodes[edge.source.data].edges.head:
             self.nodes[edge.source.data].edges.head = self.nodes[edge.source.data].edges.head.next
             edge.target.next = None
@@ -76,12 +78,12 @@ class MonoGraph(object):
         edge.target = None
         edge.source = None
 
-    def find_edge(self,source,target):
+    def search_edge(self,source,target):
         for node in self.nodes[source].edges:
-            if node.data == Target:
+            if node.data == target:
                 return node.edge_ref
   
-    def add_edge(self, data, source, target):
+    def create_edge(self, data, source, target):
         """ can this be faster? """
         node1 = self.nodes[source]
         node2 = self.nodes[target]
@@ -89,18 +91,16 @@ class MonoGraph(object):
         node1.edges.add_node(target,edge_ref=edge)
         node2.edges.add_node(source,edge_ref=edge)
         edge.source = node1.edges.tail
-
         edge.target = node2.edges.tail
         
-
     def adjacent(self, node1, node2): # check
         for edge in self.nodes[node1].edges:
-            if edge.target == node2:
+            if edge.data == node2:
                 return True
         return False
 
     def is_connected(self):
-        return self.traversal()
+        return self.traversal(0)
 
     def traversal(self, start):
         node = self.nodes[start]
