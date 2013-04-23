@@ -43,9 +43,29 @@ class AGraph(object):
         self.size += 1
         self.nodes.add_node(data)
 
+    def create_edge(self, data, source, target):
+        node1 = self.nodes[source]
+        node2 = self.nodes[target]
+        edge = Edge(data)
+        node1.edges.add_node(target, edge_reference=edge)
+        node2.edges.add_node(source, edge_reference=edge)
+        edge.source = node1.edges.tail
+        edge.target = node2.edges.tail
+
+    def adjacent_nodes(self, node1, node2): # check
+        for edge in self.nodes[node1].edges:
+            if edge.data == node2:
+                return True
+        return False
+
+    def search_edge(self, source, target):
+        for node in self.nodes[source].edges:
+            if node.data == target:
+                return node.edge_reference
+
     def destroy_node(self, index):
         for node in self.nodes[index].edges:
-            self.test_destroy_edge(node.edge_ref)   
+            self.test_destroy_edge(node.edge_reference)   
         self.nodes[index] = None
         self.size -= 1
 
@@ -67,26 +87,6 @@ class AGraph(object):
             llist_node.next.prev = llist_node.prev
             llist_node.prev = None
             llist_node.next = None
-
-    def search_edge(self, source, target):
-        for node in self.nodes[source].edges:
-            if node.data == target:
-                return node.edge_ref
-  
-    def create_edge(self, data, source, target):
-        node1 = self.nodes[source]
-        node2 = self.nodes[target]
-        edge = Edge(data)
-        node1.edges.add_node(target, edge_ref=edge)
-        node2.edges.add_node(source, edge_ref=edge)
-        edge.source = node1.edges.tail
-        edge.target = node2.edges.tail
-        
-    def adjacent_nodes(self, node1, node2): # check
-        for edge in self.nodes[node1].edges:
-            if edge.data == node2:
-                return True
-        return False
 
     def is_connected(self):
         return self.traversal(0)
