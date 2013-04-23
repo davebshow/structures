@@ -62,6 +62,12 @@ class NodeArray(object):
     def __iter__(self):
         return ArrayIterator(self._items)
 
+    def __contains__(self, target):
+        pass
+        
+    def search(self, target):
+        pass
+
     def clear(self, value):
         for ndx in range(self._size):
             self._items[ndx] = value
@@ -145,42 +151,6 @@ class LinkedList(object):
             node.prev = self.tail
             self.tail.next = node
             self.tail = node
-
-    def add_edge(self, data, source, target):
-        n_edge = Edge(data, source, target)
-        if self.head == None:
-            self.head = n_edge
-            self.tail = n_edge
-            self.length += 1
-        else:
-            n_edge.prev = self.tail
-            self.tail.next = n_edge
-            self.tail = n_edge
-            self.length += 1
-
-    def remove(self, target):
-        item = self.find(target)
-        if item:
-            if item is self.head:
-                self.head = item.next
-                item.next = None
-            elif item is self.tail:
-                self.tail = item.prev
-                item.prev = None
-            else:
-                item.prev.next = item.next
-                item.next.prev = item.prev
-                item.next = None
-                item.prev = None
-        
-    def find(self, target): 
-        current = self.head
-        while current.data != target and current != None:
-            current = current.next
-        if current == None:
-            return False
-        else:
-            return current
 
 class LinkedListIterator(object):
 
