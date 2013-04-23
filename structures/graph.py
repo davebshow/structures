@@ -12,7 +12,7 @@ class AGraph(object):
     def generate_random(size, prob):
         """ O(n^2) random graph generator"""
         G = AGraph(size)
-        for x in range(size):
+        for index in range(size):
             G.create_node(x)
         edges = itertools.combinations(range(size),2)
         for edge in edges:
@@ -32,8 +32,8 @@ class AGraph(object):
 
     def _get_node_dict(self):
         nodes = {}
-        for ndx in range(self.nodes._count):
-            node = self.nodes[ndx]
+        for index in range(self.nodes._count):
+            node = self.nodes[index]
             nodes[node.id] = node.data
         return nodes
 
@@ -43,10 +43,10 @@ class AGraph(object):
         self.size += 1
         self.nodes.add_node(data)
 
-    def destroy_node(self, ndx):
-        for node in self.nodes[ndx].edges:
+    def destroy_node(self, index):
+        for node in self.nodes[index].edges:
             self.test_destroy_edge(node.edge_ref)   
-        self.nodes[ndx] = None
+        self.nodes[index] = None
         self.size -= 1
 
     def destroy_edge(self, edge):
@@ -94,7 +94,7 @@ class AGraph(object):
     def traversal(self, start):
         node = self.nodes[start]
         visited = NodeArray(size=self.size)
-        visited.add_node(True, ndx=node.id)
+        visited.add_node(True, index=node.id)
         stack = Stack()
         stack.push(node.id)
         print "%i : %s" % (node.id,node.data)
@@ -104,7 +104,7 @@ class AGraph(object):
                     if not visited[neighbor.data]:
                         node = self.nodes[neighbor.data]
                         stack.push(neighbor.data)
-                        visited.add_node(True, ndx=neighbor.data)  
+                        visited.add_node(True, index=neighbor.data)  
                         print "%i : %s" % (node.id,node.data)       
             else:
                 stack.pop()
@@ -120,7 +120,7 @@ class AGraph(object):
         if visited == None:
             visited = NodeArray(size=self.size)
             print "%i : %s" % (node.id, node.data)
-        visited.add_node(True, ndx=node.id)
+        visited.add_node(True, index=node.id)
         if visited.full():
             return True
         elif node._valid_neighbors(visited):
@@ -184,7 +184,7 @@ class AGraph(object):
         node = self.nodes[start]
         if visited ==  None:
             visited = NodeArray(size=self.size)
-        visited.add_node(True, ndx=node.id)
+        visited.add_node(True, index=node.id)
         traversal_neighbors = set(node.neighbors)
         if degree_sep > 1:
             for neighbor in node.edges:
