@@ -1,12 +1,11 @@
-
 import random 
 import itertools
 from graph_types.data_structures import *
 
 class AGraph(object):
     """An adjacency list style graph with constant time node and edge creation, 
-    and constant time edge destruction. Edge search, node deletion and neighbors 
-    retrieval= O(deg(v)). Includes traversals, breadth search, and neighbors
+    and constant time edge destruction. Edge search, node deletion, adjacency and neighbors 
+    retrieval= O(deg(v)). Includes traversals, breadth searchs, and neighbors
     traversals."""
 
     @staticmethod
@@ -24,10 +23,8 @@ class AGraph(object):
     def __init__(self,size=None):
         if size:
             self.nodes = NodeArray(size)
-            self.array = size
         else:
             self.nodes = NodeArray(1000)
-            self.array = 1000
         self.size = 0
         
     def __len__(self):
@@ -52,13 +49,13 @@ class AGraph(object):
         self.nodes[ndx] = None
         self.size -= 1
 
-    def destroy_edge(self,edge):
-        self._edge_ref_destructor(edge.target,edge.source.data)
-        self._edge_ref_destructor(edge.source,edge.target.data)
+    def destroy_edge(self, edge):
+        self._reference_node_destructor(edge.target,edge.source.data)
+        self._reference_node_destructor(edge.source,edge.target.data)
         edge.target = None
         edge.source = None
 
-    def _edge_ref_destructor(self,llist_node, target_index):
+    def _reference_node_destructor(self, llist_node, target_index):
         if llist_node is self.nodes[target_index].edges.head:
             self.nodes[target_index].edges.head = self.nodes[target_index].edges.head.next
             llist_node.next = None
@@ -71,22 +68,21 @@ class AGraph(object):
             llist_node.prev = None
             llist_node.next = None
 
-    def search_edge(self,source,target):
+    def search_edge(self, source, target):
         for node in self.nodes[source].edges:
             if node.data == target:
                 return node.edge_ref
   
     def create_edge(self, data, source, target):
-        """ can this be faster? """
         node1 = self.nodes[source]
         node2 = self.nodes[target]
         edge = Edge(data)
-        node1.edges.add_node(target,edge_ref=edge)
-        node2.edges.add_node(source,edge_ref=edge)
+        node1.edges.add_node(target, edge_ref=edge)
+        node2.edges.add_node(source, edge_ref=edge)
         edge.source = node1.edges.tail
         edge.target = node2.edges.tail
         
-    def adjacent(self, node1, node2): # check
+    def adjacent_nodes(self, node1, node2): # check
         for edge in self.nodes[node1].edges:
             if edge.data == node2:
                 return True
@@ -118,7 +114,7 @@ class AGraph(object):
                     node = self.nodes[stack.peek()]
         return True
 
-    def rec_traversal(self, start, visited=None):
+    def recursive_traversal(self, start, visited=None):
         """this breaks down on big graphs"""
         node = self.nodes[start]
         if visited == None:
@@ -131,7 +127,7 @@ class AGraph(object):
             for neighbor in node.edges:
                 if not visited[neighbor.data]:
                     print "%i : %s" % (self.nodes[neighbor.data].id,self.nodes[neighbor.data].data)
-                    n_traversal = self.rec_traversal(neighbor.data,visited=visited)
+                    n_traversal = self.recursive_traversal(neighbor.data,visited=visited)
                     if n_traversal:
                         return True
         return False
@@ -162,7 +158,7 @@ class AGraph(object):
                 else:
                     node = self.nodes[stack.peek()]
 
-    def rec_breadth_search(self, start, finish, path=None):
+    def recursive_breadth_search(self, start, finish, path=None):
         """don't really like this"""
         if not path:
             path = LinkedList()
@@ -175,7 +171,7 @@ class AGraph(object):
             return True
         for neighbor in node.edges:
             if neighbor.data not in path:
-                n_path = self.rec_breadth_search(neighbor.data,finish,path)
+                n_path = self.recursive_breadth_search(neighbor.data,finish,path)
                 if n_path:
                     return True
         return False
@@ -183,7 +179,7 @@ class AGraph(object):
     def neighbors_traversal(self,node,degree_sep):
         pass
    
-    def rec_neighbors_traversal(self, start, degree_sep, visited=None):
+    def recursive_neighbors_traversal(self, start, degree_sep, visited=None):
         """doesn't really work for big dense graphs or degree_sep > 6"""
         node = self.nodes[start]
         if visited ==  None:
@@ -193,7 +189,7 @@ class AGraph(object):
         if degree_sep > 1:
             for neighbor in node.edges:
                 if not visited[neighbor.data]:
-                    n_neighbors = self.rec_neighbors_traversal(neighbor.data, degree_sep-1, 
+                    n_neighbors = self.recursive_neighbors_traversal(neighbor.data, degree_sep-1, 
                                                             visited=visited)
                     traversal_neighbors.update(n_neighbors)
         return traversal_neighbors

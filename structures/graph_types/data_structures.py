@@ -2,7 +2,7 @@ import ctypes
 
 class Node(object):
 
-    def __init__(self, data,edge_ref=None):
+    def __init__(self, data, edge_reference=None):
         self.data = data
         self.id = None
         self.edges = LinkedList()
@@ -22,9 +22,9 @@ class Node(object):
         return False
 
 class LinkedListNode(object):
-    def __init__(self,data,edge_ref=None):
+    def __init__(self, data, edge_reference=None):
         self.data = data
-        self.edge_ref = edge_ref
+        self.edge_reference = edge_reference
         self.prev = None
         self.next = None
 
@@ -132,9 +132,9 @@ class LinkedList(object):
             current = current.next
         return current is not None
 
-    def add_node(self, data, edge_ref=None):
-        if edge_ref:
-            node = LinkedListNode(data,edge_ref)
+    def add_node(self, data, edge_reference=None):
+        if edge_reference:
+            node = LinkedListNode(data,edge_reference)
         else:
             node = Node(data)
         if self.head == None:
