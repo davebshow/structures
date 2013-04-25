@@ -15,7 +15,7 @@ AGraph is an undirected adjacency list style graph data structure. All classes a
 
 Nodes
 =====
-The most basic unit of AGraph is the node. The node has 3 attributes: .data - the information contained in the node, set at instantiation. .id an id number corresponding to the index of the array in which it is stored, set upon addition to the graph structure. .edges a doubly linked list, instantiated upon the creation of the node object. Furthermore, nodes have an attribute neighbors, which will be shown later while discussing the graph.
+The most basic unit of AGraph is the node. The node has 3 attributes: .data - the information contained in the node--set at instantiation. .id- an id number corresponding to the index of the array in which it is stored--set upon addition to the graph structure. .edges - a doubly linked list--instantiated upon the creation of the node object. Furthermore, nodes have an attribute neighbors, which will be shown later while discussing the graph.
 ```python
 >>> n = Node("palta")
 
@@ -75,7 +75,7 @@ Array Resized
 ```
 Linked List Nodes
 =================
-The nodes are of course connected by edges. An edge is created by first adding a linked list node to a graph node's edge list. The linked list node has three attributes: .data, which is the id number of the destination node of the edge, assigned upon instantiation. .prev and .next, linked list references determined when nodes are added to the list. Finally the optional  .edge_reference, which points to an edge object, and is determined upon the instantiation of the linked:
+The graph's nodes are of course connected by edges. An edge is created by first adding a linked list node to a graph node's edge list. The linked list node has three attributes: .data - which is the id number of the destination node of the edge--assigned upon instantiation. .prev and .next - linked list references-- determined when nodes are added to the list. Finally the optional .edge_reference - which points to an edge object--determined upon the instantiation of the linked:
 ```python
 >>> l = LinkedListNode("2",edge_reference="SomeEdge")
 
@@ -92,7 +92,7 @@ The nodes are of course connected by edges. An edge is created by first adding a
 
 Edges
 =====
-Finally we have the actual edge object. The edge object has three attributes: .data, any data stored in the edge, assigned upon instantiation of the object. .source and .target, which are references to linked list nodes in the edge list of the corresponding adjacent nodes, assigned upon addition to the graph:
+Finally we have the actual edge object. The edge object has three attributes: .data - any data stored in the edge--assigned upon instantiation of the object. .source and .target - which are references to linked list nodes in the edge list of the corresponding adjacent nodes--assigned upon addition to the graph:
 ```python
 >>> e = Edge("LatAmerFruits")
 
@@ -114,17 +114,17 @@ add edge = O(1)
 remove node = O(deg(v)) -v is first node passed as params
 remove edge = O(1) # however find edge is O(deg(v))
 It provides the following attributes and methods:
-`size` the size of the graph.
-`node_dict` a dictionary of node id's and node data.
-`create_node` and `create_edge` for building a graph.
-`adjacent_node` determine if two nodes are adjacent.
-`search_edge` find and return an edge object.
-`destroy_node` and `destroy_edge` to remove node and edge objects
-`is_connected` determine if graph is connected
-`traversal` and `recursive_traversal` visit all nodes and edges
-`breadth_search` and `recursive_breadth_search` breadth first search
-`neighbors_traversal` and `recursive_neighbors_traversal` finds all neighbors of a node to a certain degree of separation.
-`generate_random` generates a random graph with a certain number of nodes and a certain probability that the are connected. Quadratic.
+*`size` the size of the graph.
+*`node_dict` a dictionary of node id's and node data.     
+*`create_node` and `create_edge` for building a graph.
+*`adjacent_node` determine if two nodes are adjacent.
+*`search_edge` find and return an edge object.
+*`destroy_node` and `destroy_edge` to remove node and edge objects
+*`is_connected` determine if graph is connected
+*`traversal` and `recursive_traversal` visit all nodes and edges
+*`breadth_search` and `recursive_breadth_search` breadth first search
+*`neighbors_traversal` and `recursive_neighbors_traversal` finds all neighbors of a node to a certain degree of separation.
+*`generate_random` generates a random graph with a certain number of nodes and a certain probability that the are connected. Quadratic.
 
 The AGraph API is used as follows:
 ----------------------------------
