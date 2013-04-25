@@ -114,17 +114,18 @@ add edge = O(1)
 remove node = O(deg(v)) -v is first node passed as params
 remove edge = O(1) # however find edge is O(deg(v))
 It provides the following attributes and methods:
-*`size` the size of the graph.
-*`node_dict` a dictionary of node id's and node data.     
-*`create_node` and `create_edge` for building a graph.
-*`adjacent_node` determine if two nodes are adjacent.
-*`search_edge` find and return an edge object.
-*`destroy_node` and `destroy_edge` to remove node and edge objects
-*`is_connected` determine if graph is connected
-*`traversal` and `recursive_traversal` visit all nodes and edges
-*`breadth_search` and `recursive_breadth_search` breadth first search
-*`neighbors_traversal` and `recursive_neighbors_traversal` finds all neighbors of a node to a certain degree of separation.
-*`generate_random` generates a random graph with a certain number of nodes and a certain probability that the are connected. Quadratic.
+`size` the size of the graph.
+
+`node_dict` a dictionary of node id's and node data.     
+`create_node` and `create_edge` for building a graph.
+`adjacent_node` determine if two nodes are adjacent.
+`search_edge` find and return an edge object.
+`destroy_node` and `destroy_edge` to remove node and edge objects
+`is_connected` determine if graph is connected
+`traversal` and `recursive_traversal` visit all nodes and edges
+`breadth_search` and `recursive_breadth_search` breadth first search
+`neighbors_traversal` and `recursive_neighbors_traversal` finds all neighbors of a node to a certain degree of separation.
+`generate_random` generates a random graph with a certain number of nodes and a certain probability that the are connected. Quadratic.
 
 The AGraph API is used as follows:
 ----------------------------------
