@@ -114,7 +114,7 @@ add edge = O(1)
 remove node = O(deg(v)) -v is first node passed as params
 remove edge = O(1) # however find edge is O(deg(v))
 It provides the following attributes and methods:
-`size` the size of the graph.'\n'
+`size` the size of the graph.\n
 `node_dict` a dictionary of node id's and node data.     
 `create_node` and `create_edge` for building a graph.
 `adjacent_node` determine if two nodes are adjacent.
