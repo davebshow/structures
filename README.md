@@ -216,6 +216,7 @@ Traverse the Graph
 >>> G = AGraph.generate_random(10,0.3)
 
 >>> G.traversal(0)
+# node.id : node.data
 0 : 0
 2 : 2
 4 : 4
@@ -245,7 +246,7 @@ Traverse the Graph
 5 : 5
 >>> True #full traversal
 
->>> G.rec_traversal(0)
+>>> G.recursive_traversal(0)
 0 : 0
 6 : 6
 1 : 1
@@ -268,7 +269,7 @@ Perform a Breadth First Search
 
 >>> True
 
->>> G.rec_breadth_search(0,9)
+>>> G.recursive_breadth_search(0,9)
 0 6 1 4 2 5 7 8 9 
 
 >>> True
@@ -278,7 +279,7 @@ Perform a Neighbors Traversal
 =============================
 ```python
 
->>> G.rec_neighbors_traversal(4,2)
+>>> G.recursive_neighbors_traversal(4,2)
 >>> set([0, 1, 2, 3, 4, 5, 6, 8, 9])
 
 >>> G.nodes[7].neighbors
