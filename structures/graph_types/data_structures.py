@@ -2,7 +2,7 @@ import ctypes
 
 class Node(object):
 
-    def __init__(self, data, edge_reference=None):
+    def __init__(self, data):
         self.data = data
         self.id = None
         self.edges = LinkedList()
@@ -44,14 +44,14 @@ class Edge(object):
 class NodeArray(object):
 
     def __init__(self, size):
-        self._size = size
+        self.size = size
         PyArray = ctypes.py_object * size
         self._items = PyArray()
-        self._count = 0
+        self.count = 0
         self.clear(None)
 
     def __len__(self):
-        return self._count
+        return self.count
 
     def __getitem__(self, ndx):
         return self._items[ndx]
@@ -69,7 +69,7 @@ class NodeArray(object):
         pass
 
     def clear(self, value):
-        for ndx in range(self._size):
+        for ndx in range(self.size):
             self._items[ndx] = value
 
     def add_node(self, data, ndx=None, edge=None):
@@ -77,23 +77,24 @@ class NodeArray(object):
         if ndx:
             node.id = ndx
             self._items[ndx] = node
-            self._count += 1
-        elif self._count < self._size:
-            node.id = self._count
-            self._items[self._count] = node
-            self._count += 1
+            self.count += 1
+        elif self.count < self.size:
+            node.id = self.count
+            self._items[self.count] = node
+            self.count += 1
         else:
             print "Array Resized"
-            resize = self._size * 2
+            resize = self.size * 2
             n_arr = NodeArray(resize)
             n_arr.copy(self._items)
             self._items = n_arr
-            self._items[self._count] = node
-            self._size = resize
-            self._count += 1
+            self._items[self.count] = node
+            node.id = self.count
+            self.size = resize
+            self.count += 1
 
     def full(self):
-        return self._count == self._size
+        return self.count == self.size
 
     def copy(self, arr):
         for ndx, item in enumerate(arr):
