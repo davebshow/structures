@@ -75,7 +75,7 @@ Array Resized
 ```
 Linked List Nodes
 =================
-The nodes are of course connected by edges. An edge is created by first adding a different kind of node to the primary node's linked edge list. The linked list node has three attributes: .data, which is the id number of the destination node of the edge, assigned upon instantiation. .prev and .next, linked list references determined when nodes are added to the list. And .edge_reference, which points to an edge object:
+The nodes are of course connected by edges. An edge is created by first adding a linked list node to a graph node's edge list. The linked list node has three attributes: .data, which is the id number of the destination node of the edge, assigned upon instantiation. .prev and .next, linked list references determined when nodes are added to the list. Finally the optional  .edge_reference, which points to an edge object, and is determined upon the instantiaion of the linked:
 ```python
 >>> l = LinkedListNode("2",edge_reference="SomeEdge")
 
@@ -126,9 +126,8 @@ It provides the following attributes and methods:
 `neighbors_traversal` and `recursive_neighbors_traversal` finds all neighbors of a node to a certain degree of seperation.
 `generate_random` generates a random graph with a certain number of nodes and a certain probability that the are connected. Quadratic.
 
-The following is a demonstration of the primary use cases of the
----------------------------------------------------------------- AGraph API.
------------
+The AGraph API is used as follows:
+----------------------------------
 Create and Destroy Nodes
 ========================
 ```python
