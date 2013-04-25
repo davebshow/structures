@@ -272,6 +272,7 @@ Perform a Breadth First Search
 0 6 1 4 2 5 7 8 9 
 
 >>> True
+```
 
 Perform a Neighbors Traversal
 =============================
