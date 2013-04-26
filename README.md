@@ -109,14 +109,15 @@ AGraph
 ======
 The combination of these structures results in a graph data type that features the following time complexities:
 
-incident edges(neighbors) = O(deg(v))
-adjacent nodes = O(deg(v)) -v is first node passed as params.
-add node = O(1)
-add edge = O(1)
-remove node = O(deg(v)) -v is first node passed as params
+incident edges(neighbors) = O(deg(v))  
+adjacent nodes = O(deg(v)) -v is first node passed as params  
+add node = O(1)  
+add edge = O(1)  
+remove node = O(deg(v)) -v is first node passed as params  
 remove edge = O(1) # however find edge is O(deg(v))
 
 AGraph provides the following attributes and methods:  
+
 `size` the size of the graph.  
 `node_dict` a dictionary of node id's and node data.  
 `create_node` and `create_edge` build a graph.  
