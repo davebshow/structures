@@ -13,7 +13,7 @@ class AGraph(object):
         """ O(n^2) random graph generator"""
         G = AGraph(size)
         for index in range(size):
-            G.create_node(x)
+            G.create_node(index)
         edges = itertools.combinations(range(size),2)
         for edge in edges:
             if random.random() < prob:
@@ -32,7 +32,7 @@ class AGraph(object):
 
     def _get_node_dict(self):
         nodes = {}
-        for index in range(self.nodes._count):
+        for index in range(self.nodes.count):
             node = self.nodes[index]
             nodes[node.id] = node.data
         return nodes
@@ -52,7 +52,7 @@ class AGraph(object):
         edge.source = node1.edges.tail
         edge.target = node2.edges.tail
 
-    def adjacent_nodes(self, node1, node2): # check
+    def adjacent_nodes(self, node1, node2): 
         for edge in self.nodes[node1].edges:
             if edge.data == node2:
                 return True
@@ -65,7 +65,7 @@ class AGraph(object):
 
     def destroy_node(self, index):
         for node in self.nodes[index].edges:
-            self.test_destroy_edge(node.edge_reference)   
+            self.destroy_edge(node.edge_reference)   
         self.nodes[index] = None
         self.size -= 1
 
@@ -115,7 +115,6 @@ class AGraph(object):
         return True
 
     def recursive_traversal(self, start, visited=None):
-        """this breaks down on big graphs"""
         node = self.nodes[start]
         if visited == None:
             visited = NodeArray(size=self.size)
@@ -159,7 +158,6 @@ class AGraph(object):
                     node = self.nodes[stack.peek()]
 
     def recursive_breadth_search(self, start, finish, path=None):
-        """don't really like this"""
         if not path:
             path = LinkedList()
         node = self.nodes[start]
@@ -176,8 +174,22 @@ class AGraph(object):
                     return True
         return False
 
-    def neighbors_traversal(self,node,degree_sep):
-        pass
+    def neighbors_traversal(self,start,degree_sep):
+        node = self.nodes[start]
+        visited = NodeArray(size=self.size)
+        visited.add_node(True,index=node.id)
+        neighbors = node.neighbors
+        neighbors.update([node.id])
+        current_neighbors = neighbors
+        for i in range(degree_sep-1):
+            local_neighbors = set()
+            for neighbor in current_neighbors:
+                if not visited[neighbor]:
+                    local_neighbors.update(self.nodes[neighbor].neighbors)
+                    visited.add_node(True,index=neighbor)
+            neighbors.update(local_neighbors)
+            current_neighbors = local_neighbors
+        return neighbors
    
     def recursive_neighbors_traversal(self, start, degree_sep, visited=None):
         """doesn't really work for big dense graphs or degree_sep > 6"""
@@ -185,12 +197,13 @@ class AGraph(object):
         if visited ==  None:
             visited = NodeArray(size=self.size)
         visited.add_node(True, index=node.id)
-        traversal_neighbors = set(node.neighbors)
+        neighbors = set(node.neighbors)
+        neighbors.update([node.id])
         if degree_sep > 1:
             for neighbor in node.edges:
                 if not visited[neighbor.data]:
                     n_neighbors = self.recursive_neighbors_traversal(neighbor.data, degree_sep-1, 
                                                             visited=visited)
-                    traversal_neighbors.update(n_neighbors)
-        return traversal_neighbors
+                    neighbors.update(n_neighbors)
+        return neighbors
              

@@ -53,11 +53,11 @@ class NodeArray(object):
     def __len__(self):
         return self.count
 
-    def __getitem__(self, ndx):
-        return self._items[ndx]
+    def __getitem__(self, index):
+        return self._items[index]
 
-    def __setitem__(self, ndx, data):
-        self._items[ndx] = data
+    def __setitem__(self, index, data):
+        self._items[index] = data
 
     def __iter__(self):
         return ArrayIterator(self._items)
@@ -69,14 +69,14 @@ class NodeArray(object):
         pass
 
     def clear(self, value):
-        for ndx in range(self.size):
-            self._items[ndx] = value
+        for index in range(self.size):
+            self._items[index] = value
 
-    def add_node(self, data, ndx=None, edge=None):
+    def add_node(self, data, index=None, edge=None):
         node = Node(data)
-        if ndx:
-            node.id = ndx
-            self._items[ndx] = node
+        if index:
+            node.id = index
+            self._items[index] = node
             self.count += 1
         elif self.count < self.size:
             node.id = self.count
@@ -97,8 +97,8 @@ class NodeArray(object):
         return self.count == self.size
 
     def copy(self, arr):
-        for ndx, item in enumerate(arr):
-            self._items[ndx] = item
+        for index, item in enumerate(arr):
+            self._items[index] = item
 
 class ArrayIterator(object):
     
@@ -143,7 +143,7 @@ class LinkedList(object):
         if edge_reference:
             node = LinkedListNode(data,edge_reference)
         else:
-            node = Node(data)
+            node = LinkedListNode(data)
         if self.head == None:
             self.head = node
             self.tail = node

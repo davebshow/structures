@@ -107,14 +107,16 @@ Finally we have the actual edge object. The edge object has three attributes: .d
 AGraph
 ======
 The combination of these structures results in a graph data type that features the following time complexities:
+
 incident edges(neighbors) = O(deg(v))
 adjacent nodes = O(deg(v)) -v is first node passed as params.
 add node = O(1)
 add edge = O(1)
 remove node = O(deg(v)) -v is first node passed as params
 remove edge = O(1) # however find edge is O(deg(v))
-It provides the following attributes and methods:
-`size` the size of the graph.\n
+
+AGraph provides the following attributes and methods:
+`size` the size of the graph.             
 `node_dict` a dictionary of node id's and node data.     
 `create_node` and `create_edge` for building a graph.
 `adjacent_node` determine if two nodes are adjacent.
@@ -295,6 +297,24 @@ Perform a Neighbors Traversal
 >>> set([0, 1, 2, 3, 5, 7, 8])
 
 ```
+Recursive vs. Non-Recursive Traversal Speed
+>>> % timeit a.traversal(0)
+1000 loops, best of 3: 270 us per loop
+
+>>> % timeit a.recursive_traversal(0)
+1000 loops, best of 3: 731 us per loop
+
+>>> % timeit a.breadth_search(0,19)
+10000 loops, best of 3: 94.4 us per loop
+
+>>> % timeit a.recursive_breadth_search(0,19)
+1000 loops, best of 3: 351 us per loop
+
+>>> %timeit a.neighbors_traversal(0,2)
+10000 loops, best of 3: 103 us per loop
+
+>>> %timeit a.recursive_neighbors_traversal(0,2)
+10000 loops, best of 3: 117 us per loop
 
 
 
