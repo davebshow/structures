@@ -237,7 +237,7 @@ Recursive methods are always slower. Check average times below.
 
 >>> G = AGraph.generate_random(10,0.4)
 
->>> G.traversal(0)
+>>> G.traversal(0) #start node id
 0 : 0
 6 : 6
 7 : 7
@@ -268,7 +268,7 @@ Perform a Breadth First Search
 ==============================
 ```python
 
->>> G.breadth_search(0,9)
+>>> G.breadth_search(0,9) # start and finish node id's
 9 4 1 8 7 6 0 
 
 >>> True
@@ -283,21 +283,11 @@ Perform a Neighbors Traversal
 =============================
 ```python
 
->>> G.recursive_neighbors_traversal(4,2)
->>> set([0, 1, 2, 3, 4, 5, 6, 8, 9])
+>>> a.neighbors_traversal(4,2) #node id, degree of seperation
+>>> set([1, 3, 4, 5, 6, 7, 8])
 
->>> G.nodes[7].neighbors
->>> set([0, 5, 6])
-
->>> G.nodes[0].neighbors
->>> set([8, 6, 7])
-
->>> G.nodes[5].neighbors
->>> set([2, 6, 7])
-
->>> G.nodes[6].neighbors
->>> set([0, 1, 2, 3, 5, 7, 8])
-
+>>> a.recursive_neighbors_traversal(4,2)
+>>> set([1, 3, 4, 5, 6, 7, 8])
 ```
 Recursive vs. Non-Recursive Traversal Speed
 ===========================================
