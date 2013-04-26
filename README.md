@@ -46,6 +46,7 @@ def add_node(self, data, ndx=None, edge=None):
         n_arr.copy(self._items)
         self._items = n_arr
         self._items[self._count] = node
+        node.id = self.count
         self._size = resize
         self._count += 1
 ```
