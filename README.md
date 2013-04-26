@@ -105,7 +105,7 @@ Finally we have the actual edge object. The edge object has three attributes: .d
 >>> e.target
 ```
 
-AGraph
+Graph
 ======
 The combination of these structures results in a graph data type that features the following time complexities:
 
