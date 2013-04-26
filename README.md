@@ -213,6 +213,8 @@ Find an Edge and Destroy it
 
 Traverse the Graph
 ==================
+Recursive methods are always slower. Check average times below.
+----------------------------------------------------------------
 ```python
 
 >>> G = AGraph.generate_random(10,0.3)
@@ -298,6 +300,8 @@ Perform a Neighbors Traversal
 
 ```
 Recursive vs. Non-Recursive Traversal Speed
+===========================================
+```python
 >>> % timeit a.traversal(0)
 1000 loops, best of 3: 270 us per loop
 
@@ -315,6 +319,7 @@ Recursive vs. Non-Recursive Traversal Speed
 
 >>> %timeit a.recursive_neighbors_traversal(0,2)
 10000 loops, best of 3: 117 us per loop
+```
 
 
 
