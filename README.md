@@ -122,10 +122,10 @@ AGraph provides the following attributes and methods:
 `create_node` and `create_edge` build a graph.  
 `adjacent_node` determine if two nodes are adjacent.  
 `search_edge` find and return an edge object.  
-`destroy_node` and `destroy_edge` remove node and edge objects  
-`is_connected` determine if graph is connected  
-`traversal` and `recursive_traversal` visit all nodes and edges  
-`breadth_search` and `recursive_breadth_search` breadth first search  
+`destroy_node` and `destroy_edge` remove node and edge objects.  
+`is_connected` determine if graph is connected.  
+`traversal` and `recursive_traversal` visit all nodes and edges.  
+`breadth_search` and `recursive_breadth_search` breadth first search.  
 `neighbors_traversal` and `recursive_neighbors_traversal` finds all neighbors of a node to a certain degree of separation.  
 `generate_random` generates a random graph with a certain number of nodes and a certain probability that the are connected. Quadratic.
 
